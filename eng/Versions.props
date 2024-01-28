@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- Versioning specifications:  https://github.com/dotnet/arcade/blob/master/Documentation/CorePackages/Versioning.md -->
+  <PropertyGroup>
+    <ProductVersion>8.0.0</ProductVersion>
+    <MajorVersion>8</MajorVersion>
+    <MinorVersion>0</MinorVersion>
+    <WcfAssemblyVersion>8.0.0.0</WcfAssemblyVersion>
+    <!-- To produce shipping versions in non-official builds, instead of default fixed dummy version number (42.42.42.42). -->
+    <DotNetUseShippingVersions>true</DotNetUseShippingVersions>
+    <PreReleaseVersionLabel>rtm</PreReleaseVersionLabel>
+    <PreReleaseVersionIteration>
+    </PreReleaseVersionIteration>
+    <!-- Opt-in repo features -->
+    <UsingToolIbcOptimization>true</UsingToolIbcOptimization>
+    <!-- Enabling this rule will cause build failures on undocumented public APIs. -->
+    <SkipArcadeNoWarnCS1591>true</SkipArcadeNoWarnCS1591>
+  </PropertyGroup>
+  <!-- Arcade dependencies -->
+  <PropertyGroup>
+    <MicrosoftDotNetGenFacadesPackageVersion>9.0.0-beta.24054.2</MicrosoftDotNetGenFacadesPackageVersion>
+    <MicrosoftDotNetXUnitExtensionsPackageVersion>9.0.0-beta.24054.2</MicrosoftDotNetXUnitExtensionsPackageVersion>
+  </PropertyGroup>
+  <!-- CoreFx dependencies -->
+  <PropertyGroup>
+    <SystemSecurityCryptographyXmlPackageVersion>6.0.1</SystemSecurityCryptographyXmlPackageVersion>
+    <MicrosoftExtensionsObjectPoolVersion>6.0.16</MicrosoftExtensionsObjectPoolVersion>
+  </PropertyGroup>
+  <!-- Additional dependencies -->
+  <PropertyGroup>
+    <XUnitStaFactPackageVersion>0.3.5</XUnitStaFactPackageVersion>
+    <!-- Needed by Infrastructure.Common.csproj -->
+    <MicrosoftDotNetPlatformAbstractionsVersion>2.1.0</MicrosoftDotNetPlatformAbstractionsVersion>
+    <MicrosoftIdentityModelProtocolsWsTrustPackageVersion>6.8.0</MicrosoftIdentityModelProtocolsWsTrustPackageVersion>
+  </PropertyGroup>
+</Project>

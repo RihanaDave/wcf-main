@@ -1,0 +1,75 @@
+<Project Sdk="Microsoft.DotNet.Helix.Sdk" DefaultTargets="Test">
+  <PropertyGroup>
+    <HelixSource Condition=" '$(RunAsPublic)' == 'true' ">pr/dotnet/wcf/$(BUILD_SOURCEBRANCH)/</HelixSource>
+    <HelixSource Condition=" '$(RunAsInternal)' == 'true' ">official/dotnet/wcf/$(BUILD_SOURCEBRANCH)/</HelixSource>
+    <HelixType>test/product/</HelixType>
+    <HelixBuild>$(BUILD_BUILDNUMBER)</HelixBuild>
+    <HelixBuild Condition="'$(HelixBuild)' == ''">123460.01</HelixBuild>
+	<DotNetCliPackageType>sdk</DotNetCliPackageType>
+    <DotNetCliVersion>8.0.100</DotNetCliVersion>
+    <IncludeDotNetCli>true</IncludeDotNetCli>
+
+    <EnableAzurePipelinesReporter>true</EnableAzurePipelinesReporter>
+    <TestRunNamePrefix>$(AGENT_JOBNAME)</TestRunNamePrefix>
+
+    <EnableXUnitReporter>true</EnableXUnitReporter>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <XUnitProject Include="..\src\System.Private.ServiceModel\tests\Scenarios\**\*.IntegrationTests.csproj">
+      <TargetFramework>$(XUnitPublishTargetFramework)</TargetFramework>
+    </XUnitProject>
+    <XUnitProject Include="..\src\System.ServiceModel.*\tests\*.Tests.csproj">
+      <TargetFramework>$(XUnitPublishTargetFramework)</TargetFramework>
+    </XUnitProject>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TestJob)' == 'Windows' AND '$(RunAsPublic)' == 'true'" >
+    <HelixTargetQueue Include="windows.11.amd64.client.open" />
+    <HelixTargetQueue Include="windows.amd64.server2022.open" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TestJob)' == 'Windows' AND '$(RunAsInternal)'" >
+    <HelixTargetQueue Include="windows.11.amd64.client" />
+    <HelixTargetQueue Include="(Debian.11.Amd64)Ubuntu.2204.Amd64@mcr.microsoft.com/dotnet-buildtools/prereqs:debian-11-helix-amd64" />
+    <HelixTargetQueue Include="(Mariner.2.0.Amd64)Ubuntu.2204.Amd64@mcr.microsoft.com/dotnet-buildtools/prereqs:cbl-mariner-2.0-helix-amd64" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TestJob)' == 'Linux'" >
+    <HelixTargetQueue Include="SLES.15.Amd64.Open" />
+    <HelixTargetQueue Include="(Fedora.38.Amd64.Open)ubuntu.2204.amd64.open@mcr.microsoft.com/dotnet-buildtools/prereqs:fedora-38-helix" />
+    <HelixTargetQueue Include="Ubuntu.2204.Amd64.Open" />
+    <HelixTargetQueue Include="(Debian.11.Amd64.Open)Ubuntu.2204.Amd64.Open@mcr.microsoft.com/dotnet-buildtools/prereqs:debian-11-helix-amd64" />
+    <HelixTargetQueue Include="(Mariner.2.0.Amd64.Open)Ubuntu.2204.Amd64.open@mcr.microsoft.com/dotnet-buildtools/prereqs:cbl-mariner-2.0-helix-amd64" />
+    <HelixTargetQueue Include="(openSUSE.15.2.Amd64.Open)Ubuntu.2204.Amd64.open@mcr.microsoft.com/dotnet-buildtools/prereqs:opensuse-15.2-helix-amd64" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TestJob)' == 'MacOS'" >
+    <HelixTargetQueue Include="OSX.1200.Amd64.Open" />
+    <HelixTargetQueue Include="OSX.1200.Arm64.Open" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(RunAsPublic)' == 'true' ">
+    <IsExternal>true</IsExternal>
+    <Creator>$(BUILD_SOURCEVERSIONAUTHOR)</Creator>
+    <Creator Condition=" '$(Creator)' == ''">anon</Creator>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="!$(HelixTargetQueue.StartsWith('Windows'))">
+    <HelixPreCommands>$(HelixPreCommands);chmod a+x $HELIX_CORRELATION_PAYLOAD/InstallRootCertificate.sh</HelixPreCommands>
+    <HelixPreCommands>$(HelixPreCommands);sudo -E -n $HELIX_CORRELATION_PAYLOAD/InstallRootCertificate.sh --service-host $(ServiceHost) --cert-file /tmp/wcfrootca.crt</HelixPreCommands>
+  </PropertyGroup>
+
+  <Target Name="Pack"/>
+
+  <ItemGroup>
+    <!-- Directory that is zipped up and sent as a correlation payload to Helix -->
+    <HelixCorrelationPayload Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)\..\src\System.Private.ServiceModel\tools\scripts'))" >
+      <PayloadDirectory>%(Identity)</PayloadDirectory>
+    </HelixCorrelationPayload>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <Language>msbuild</Language>
+  </PropertyGroup>
+</Project>

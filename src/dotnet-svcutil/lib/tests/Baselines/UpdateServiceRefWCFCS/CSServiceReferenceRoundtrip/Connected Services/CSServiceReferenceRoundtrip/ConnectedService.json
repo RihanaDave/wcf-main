@@ -1,0 +1,21 @@
+{
+  "providerId": "Microsoft.VisualStudio.ConnectedService.Wcf",
+  "version": "99.99.99",
+  "ExtendedData": {
+    "inputs": [
+      "$testCasesPath$/wsdl/Simple.wsdl"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, CSServiceReferenceRoundtrip_NS"
+    ],
+    "references": [
+      "System.Collections, {Microsoft.NETCore.App, *}",
+      "System.Runtime, {Microsoft.NETCore.App, *}"
+    ],
+    "typeReuseMode": "All"
+  }
+}

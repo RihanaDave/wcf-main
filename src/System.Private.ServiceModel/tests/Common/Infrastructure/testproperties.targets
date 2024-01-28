@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+    $(_TestPropertyCode):
+      Contains the code that will be created at build time
+      and added to the @(Compile) collection to be compiled.  It exists so that
+      any of these special MSBuild properties or environment variables are captured
+      at build time into the test binaries.  This allows those binaries to execute
+      on other machines and use the variable properties specified at build time.
+      If any items are added to testproperties.props, please update this file as well 
+      to generate a property name and dictionary entry for it.
+  -->
+  <PropertyGroup>
+    <_TestPropertyCode>
+      <![CDATA[
+using System.Collections.Generic%3B
+namespace Infrastructure.Common
+{
+    public static partial class TestProperties
+    {
+        public static readonly string ServicePort_PropertyName = "ServicePort"%3B
+        public static readonly string ServiceHttpPort_PropertyName = "ServiceHttpPort"%3B
+        public static readonly string ServiceHttpsPort_PropertyName = "ServiceHttpsPort"%3B
+        public static readonly string ServiceTcpPort_PropertyName = "ServiceTcpPort"%3B
+        public static readonly string ServiceWebSocketPort_PropertyName = "ServiceWebSocketPort"%3B
+        public static readonly string ServiceSecureWebSocketPort_PropertyName = "ServiceSecureWebSocketPort"%3B
+        public static readonly string TestRootCertificatePassword_PropertyName = "TestRootCertificatePassword"%3B
+        public static readonly string TestRootCertificateValidityPeriod_PropertyName = "TestRootCertificateValidityPeriod"%3B
+        public static readonly string MaxTestTimeSpan_PropertyName = "MaxTestTimeSpan"%3B
+        public static readonly string NegotiateTestRealm_PropertyName = "NegotiateTestRealm"%3B
+        public static readonly string NegotiateTestDomain_PropertyName = "NegotiateTestDomain"%3B
+        public static readonly string NegotiateTestSpn_PropertyName = "NegotiateTestSpn"%3B
+        public static readonly string NegotiateTestUpn_PropertyName = "NegotiateTestUpn"%3B
+        public static readonly string Domain_Joined_PropertyName = "Domain_Joined"%3B
+        public static readonly string Server_Domain_Joined_PropertyName = "Server_Domain_Joined"%3B
+        public static readonly string Root_Certificate_Installed_PropertyName = "Root_Certificate_Installed"%3B
+        public static readonly string Client_Certificate_Installed_PropertyName = "Client_Certificate_Installed"%3B
+        public static readonly string Peer_Certificate_Installed_PropertyName = "Peer_Certificate_Installed"%3B
+        public static readonly string OSXPeer_Certificate_Installed_PropertyName = "OSXPeer_Certificate_Installed"%3B
+        public static readonly string SPN_Available_PropertyName = "SPN_Available"%3B
+        public static readonly string Server_Accepts_Certificates_PropertyName = "Server_Accepts_Certificates"%3B
+        public static readonly string Ambient_Credentials_Available_PropertyName = "Ambient_Credentials_Available"%3B
+        public static readonly string Explicit_Credentials_Available_PropertyName = "Explicit_Credentials_Available"%3B
+        public static readonly string Basic_Authentication_Available_PropertyName = "Basic_Authentication_Available"%3B
+        public static readonly string Digest_Authentication_Available_PropertyName = "Digest_Authentication_Available"%3B
+        public static readonly string Windows_Authentication_Available_PropertyName = "Windows_Authentication_Available"%3B
+        public static readonly string NTLM_Available_PropertyName = "NTLM_Available"%3B
+        public static readonly string ServiceUri_PropertyName = "ServiceUri"%3B
+        public static readonly string ExplicitUserName_PropertyName = "ExplicitUserName"%3B
+        public static readonly string ExplicitPassword_PropertyName = "ExplicitPassword"%3B
+        public static readonly string SSL_Available_PropertyName = "SSL_Available"%3B
+        public static readonly string IncludeTestsWithIssues_PropertyName = "IncludeTestsWithIssues"%3B
+                
+        static partial void Initialize(Dictionary<string, string> properties)
+        {
+            properties["ServicePort"] = "$(ServicePort)"%3B
+            properties["ServiceHttpPort"] = "$(ServiceHttpPort)"%3B
+            properties["ServiceHttpsPort"] = "$(ServiceHttpsPort)"%3B
+            properties["ServiceTcpPort"] = "$(ServiceTcpPort)"%3B
+            properties["ServiceWebSocketPort"] = "$(ServiceWebSocketPort)"%3B
+            properties["ServiceSecureWebSocketPort"] = "$(ServiceSecureWebSocketPort)"%3B
+            properties["TestRootCertificatePassword"] = "$(TestRootCertificatePassword)"%3B
+            properties["TestRootCertificateValidityPeriod"] = "$(TestRootCertificateValidityPeriod)"%3B
+            properties["MaxTestTimeSpan"] = "$(MaxTestTimeSpan)"%3B
+            properties["NegotiateTestRealm"] = "$(NegotiateTestRealm)"%3B
+            properties["NegotiateTestDomain"] = "$(NegotiateTestDomain)"%3B
+            properties["NegotiateTestSpn"] = "$(NegotiateTestSpn)"%3B
+            properties["NegotiateTestUpn"] = "$(NegotiateTestUpn)"%3B
+            properties["Domain_Joined"] = "$(Domain_Joined)"%3B
+            properties["Server_Domain_Joined"] = "$(Server_Domain_Joined)"%3B
+            properties["Root_Certificate_Installed"] = "$(Root_Certificate_Installed)"%3B
+            properties["Client_Certificate_Installed"] = "$(Client_Certificate_Installed)"%3B
+            properties["Peer_Certificate_Installed"] = "$(Peer_Certificate_Installed)"%3B
+            properties["OSXPeer_Certificate_Installed"] = "$(OSXPeer_Certificate_Installed)"%3B
+            properties["SPN_Available"] = "$(SPN_Available)"%3B
+            properties["UPN_Available"] = "$(UPN_Available)"%3B
+            properties["Server_Accepts_Certificates"] = "$(Server_Accepts_Certificates)"%3B
+            properties["Ambient_Credentials_Available"] = "$(Ambient_Credentials_Available)"%3B
+            properties["Explicit_Credentials_Available"] = "$(Explicit_Credentials_Available)"%3B
+            properties["Basic_Authentication_Available"] = "$(Basic_Authentication_Available)"%3B
+            properties["Digest_Authentication_Available"] = "$(Digest_Authentication_Available)"%3B
+            properties["Windows_Authentication_Available"] = "$(Windows_Authentication_Available)"%3B
+            properties["NTLM_Available"] = "$(NTLM_Available)"%3B
+            properties["ServiceUri"] = "$(ServiceUri)"%3B
+            properties["ExplicitUserName"] = "$(ExplicitUserName)"%3B
+            properties["ExplicitPassword"] = "$(ExplicitPassword)"%3B
+            properties["SSL_Available"] = "$(SSL_Available)"%3B
+            properties["IncludeTestsWithIssues"] = "$(IncludeTestsWithIssues)"%3B
+        }
+    }
+}
+                ]]>
+    </_TestPropertyCode>
+  </PropertyGroup>
+  
+  <!-- 
+    CreateTestPropertiesFile:
+      This target writes the test properties to the file specified by
+      $(GeneratedTestPropertiesFileName) if it does not already exist.
+  -->
+  <Target Name="CreateTestPropertiesFile" Condition="!Exists('$(GeneratedTestPropertiesFileName)')">
+    <WriteLinesToFile
+        File="$(GeneratedTestPropertiesFileName)"
+        Lines="$(_TestPropertyCode)"
+        Overwrite="true"/>
+  </Target>
+
+  <!--
+    CreateTestProperties:
+      This target generates a file to initialize the TestProperties dictionary
+      with a set of known name/value pairs.  The file will also contain
+      generated static strings for each property name.  Code accessing the
+      properties in TestProperties.Properties should use these generated
+      names rather than separate string literals.
+  -->
+  <Target Name="CreateTestProperties" BeforeTargets="BeforeCompile" DependsOnTargets="CreateTestPropertiesFile">
+    
+    <Message Text="CreateTestProperties is using the generated test property file at $(GeneratedTestPropertiesFileName)" />
+    
+    <!-- Add the generated file to the @(Compile) collection so it gets built. -->
+    <ItemGroup>
+      <Compile Include="$(GeneratedTestPropertiesFileName)" />
+    </ItemGroup>
+  </Target>
+
+</Project>
+
+
